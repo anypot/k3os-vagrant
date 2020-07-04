@@ -1,0 +1,51 @@
+{
+  "variables": {
+    "iso_url": "https://github.com/rancher/k3os/releases/download/v0.11.0-rc1/k3os-amd64.iso",
+    "iso_checksum": "73cff4282879631da543166ab31eb219ee0066e9e63edafa832a944e18d08898",
+    "password": "rancher"
+  },
+
+  "builders": [
+    {
+      "type": "virtualbox-iso",
+      "guest_os_type": "Linux_64",
+      "disk_size": "8000",
+      "format": "ova",
+      "guest_additions_mode": "disable",
+      "iso_url": "{{user `iso_url`}}",
+      "iso_checksum": "sha256:{{user `iso_checksum`}}",
+      "ssh_username": "rancher",
+      "ssh_keypair_name": "",
+      "ssh_private_key_file": "vagrant_insecure_rsa",
+      "ssh_timeout": "1000s",
+      "http_directory": ".",
+      "boot_wait": "30s",
+      "boot_command": [
+        "<enter>",
+        "<wait40>",
+        "rancher",
+        "<enter>",
+        "sudo k3os install",
+        "<enter>",
+        "1",
+        "<enter>",
+        "y",
+        "<enter>",
+        "http://{{ .HTTPIP }}:{{ .HTTPPort }}/config.yaml",
+        "<enter>",
+        "y",
+        "<enter>"
+      ],
+      "shutdown_command": "sudo poweroff",
+      "post_shutdown_delay": "10s"
+    }
+  ],
+
+  "post-processors": [
+    {
+      "type": "vagrant",
+      "output": "k3OS_{{.Provider}}.box",
+      "vagrantfile_template": "vagrantfile.template"
+    }
+  ]
+}
