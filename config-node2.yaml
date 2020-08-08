@@ -1,0 +1,14 @@
+hostname: k3s-worker1
+k3os:
+  password: supersecure
+  token: super-secure-local-cluster-token
+  dns_nameservers:
+  - 9.9.9.9
+  - 1.1.1.1
+  ntp_servers:
+  - 0.pool.ntp.org
+  - 1.pool.ntp.org
+  k3s_args:
+  - agent
+  - "--server=https://k3s-master:6443"
+  - "--node-name=ellarbin1"

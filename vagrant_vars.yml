@@ -1,0 +1,5 @@
+---
+
+hostname_prefix: homek3s
+vagrant_box: anypot/k3os
+memory: 1024
